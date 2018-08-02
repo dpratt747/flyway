@@ -1,0 +1,5 @@
+run migrations:
+- ./flyway migrate
+- ./flyway clean
+
+

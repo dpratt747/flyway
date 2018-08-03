@@ -1,5 +1,6 @@
 run migrations:
 - ./flyway migrate
+clean db:
 - ./flyway clean
 
 

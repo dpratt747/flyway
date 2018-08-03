@@ -22,3 +22,11 @@ ALTER TABLE brands
 ALTER TABLE brands
     ADD FOREIGN KEY (ContactDetailsID) REFERENCES brand_contact_details(ContactID);
 
+-- adding default resturant types to table
+INSERT INTO brand_type (TypeName) VALUE ("Bistro");
+INSERT INTO brand_type (TypeName) VALUE ("Fast food");
+INSERT INTO brand_type (TypeName) VALUE ("Casual Dining");
+INSERT INTO brand_type (TypeName) VALUE ("Fine Dining");
+INSERT INTO brand_type (TypeName) VALUE ("Barbecue");
+INSERT INTO brand_type (TypeName) VALUE ("Ethnic");
+INSERT INTO brand_type (TypeName) VALUE ("Café");

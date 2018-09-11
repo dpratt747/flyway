@@ -1,3 +1,6 @@
+mariadb:
+- mysqld.exe start
+
 run migrations:
 - ./flyway migrate
 - ./flyway clean

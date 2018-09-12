@@ -1,4 +1,4 @@
-package schema
+package schemas
 
 import scala.concurrent.{Await, Future}
 import scala.concurrent.duration.Duration
@@ -19,5 +19,4 @@ class BrandTypes(tag: Tag) extends Table[BrandType](tag, "brand_type") {
 
 }
 
-object brandTypes extends TableQuery(new BrandTypes(_))
 

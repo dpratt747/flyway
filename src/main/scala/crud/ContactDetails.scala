@@ -1,9 +1,11 @@
-package CRUD
+package crud
 
-import Runner.brandContactDetails
+import runner.brandContactDetails
 import schemas.BrandContactDetails
 import slick.jdbc.MySQLProfile.api._
 import scala.concurrent.Future
+
+
 
 object ContactDetails {
 

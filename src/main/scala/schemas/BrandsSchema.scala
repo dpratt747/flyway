@@ -1,6 +1,6 @@
 package schemas
 
-import Runner.{brandContactDetails, brandTypes}
+import runner.{brandContactDetails, brandTypes}
 import slick.jdbc.MySQLProfile.api._
 
 case class Brand(brandID: Option[Int], brandName: String, typeID: Int, contactDetailsID: Int)

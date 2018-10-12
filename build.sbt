@@ -14,5 +14,5 @@ libraryDependencies ++= Seq(
   "com.typesafe.slick" %% "slick-codegen" % "3.2.3",
   "org.typelevel" %% "cats-core" % "1.2.0",
   "org.slf4j" % "slf4j-api" % "1.6.4",
-  "org.slf4j" % "slf4j-simple" % "1.6.4"
+  "org.slf4j" % "slf4j-simple" % "1.6.4",
 )

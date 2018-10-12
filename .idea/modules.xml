@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/reservemyresturant.iml" filepath="$PROJECT_DIR$/.idea/modules/reservemyresturant.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/reservemyresturant-build.iml" filepath="$PROJECT_DIR$/.idea/modules/reservemyresturant-build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/flyway.iml" filepath="$PROJECT_DIR$/.idea/modules/flyway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/flyway-build.iml" filepath="$PROJECT_DIR$/.idea/modules/flyway-build.iml" />
     </modules>
   </component>
 </project>

@@ -1,8 +1,11 @@
 mariadb:
-- mysqld.exe start
+- ./mysqld.exe start
 
 run migrations:
+- inside migrations directory
+- create db reserveresturant
 - ./flyway migrate
+
 clean db:
 - ./flyway clean
 

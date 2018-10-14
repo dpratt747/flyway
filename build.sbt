@@ -15,4 +15,9 @@ libraryDependencies ++= Seq(
   "org.typelevel" %% "cats-core" % "1.2.0",
   "org.slf4j" % "slf4j-api" % "1.6.4",
   "org.slf4j" % "slf4j-simple" % "1.6.4",
+  "org.scalatest" % "scalatest_2.12" % "3.0.5" % Test,
+  "org.scalamock" %% "scalamock" % "4.1.0" % Test,
+  "com.typesafe.akka" %% "akka-http"   % "10.1.5",
+  "com.typesafe.akka" %% "akka-stream" % "2.5.17",
+  "com.typesafe.akka" %% "akka-actor" % "2.5.17"
 )

@@ -1,14 +1,14 @@
-package dao
-
-import java.util
+package services
 
 import runner.vendor
 import schemas.Vendor
 import slick.jdbc.MySQLProfile.api._
 import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent._
+import scala.concurrent.ExecutionContext.global
 
 
-class VendorService(implicit val executionContext: ExecutionContext) extends VendorService {
+class VendorService() {
 
   def insertVendor(inputVendor: Vendor): Future[Vendor] ={
     val query = vendor.returning(vendor.map(_.userID)) into ((a, b) =>

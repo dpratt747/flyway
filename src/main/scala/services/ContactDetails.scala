@@ -1,4 +1,4 @@
-package dao
+package services
 
 import runner.brandContactDetails
 import schemas.BrandContactDetails

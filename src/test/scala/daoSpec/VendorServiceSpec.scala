@@ -3,7 +3,7 @@ package daoSpec
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.FunSpec
 import org.scalatest.BeforeAndAfter
-import dao.VendorService
+import services.VendorService
 import schemas.Vendor
 
 import scala.concurrent.Future

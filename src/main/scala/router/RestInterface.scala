@@ -1,15 +1,18 @@
 package router
 
-import akka.http.scaladsl.server.Route
-import dao.VendorService
-import scala.concurrent.ExecutionContext
+import com.twitter.finagle.Service
+import com.twitter.finagle.http.{Request, Response}
+import io.finch._
+import io.circe.generic.auto._
+import io.finch.circe._
 
 trait RestInterface extends Resources {
 
-  implicit def executionContext: ExecutionContext
-  lazy val vendorService = new VendorService()
+  lazy val vendorService = new VendorResources()
 
-  val routes: Route = vendorRoutes
+  val endpoints: Service[Request, Response] = {
+    vendorService.vendorEndpoints.toServiceAs[Application.Json]
+  }
 
 }
 

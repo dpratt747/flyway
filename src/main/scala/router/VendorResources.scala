@@ -1,21 +1,45 @@
 package router
 
-import akka.http.scaladsl.server.Route
-import akka.http.scaladsl.server.Directives._
-import akka.http.scaladsl.model.StatusCodes
-import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
-import spray.json.DefaultJsonProtocol._
-import akka.actor.ActorSystem
-import akka.http.scaladsl.Http
-import akka.stream.ActorMaterializer
-import akka.Done
+import io.finch._
+import io.finch.syntax._
+import schemas.Vendor
+import services.VendorService
+import shapeless.{:+:, CNil}
+import io.finch.circe._
+import router.DecodeEncode._
 
-object VendorResources {
+import scala.concurrent.ExecutionContext.Implicits.global
+import runner.LogTrait
 
-  val route: Route = {
-    post {
-      pathPrefix("add-vendor" / )
-    }
+class VendorResources extends TwitterConversion with LogTrait {
+
+
+  private val vendorService = new VendorService()
+
+  private val ping: Endpoint[String] = get("ping") {
+    log.info("Request made to /ping")
+    Ok("pong")
+  } handle {
+    case e: Exception =>
+      log.error(s"Error during request to /ping: $e")
+      InternalServerError(e)
   }
 
+  /**
+    * endpoint to add new vendor account
+    *  example json body {"userID": null, "userName": "david_username", "email": "david_email@domain.com", "password": "password" }
+    */
+  private val addVendor: Endpoint[Vendor] = post("addvendor" :: jsonBody[Vendor]) { vendor: Vendor =>
+    log.info(s"Request made to /addvendor with the following body: $vendor")
+    vendorService.insertVendor(vendor).asTwitter.map(Ok)
+  } handle {
+    case e: Exception =>
+      log.error(s"Error during request to /addvendor: $e")
+      InternalServerError(e)
+  }
+
+  val vendorEndpoints: Endpoint[Vendor :+: String :+: CNil] = addVendor :+: ping
+
 }
+
+

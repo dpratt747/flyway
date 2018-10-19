@@ -4,14 +4,12 @@ import runner.vendor
 import schemas.Vendor
 import slick.jdbc.MySQLProfile.api._
 import scala.concurrent.{ExecutionContext, Future}
-import scala.concurrent._
-import scala.concurrent.ExecutionContext.global
 
 
-class VendorService() {
+object VendorService {
 
   // TODO: add creation time and last login time field to db and vendor schema 
-  def insertVendor(inputVendor: Vendor): Future[Vendor] ={
+  def insertVendor(inputVendor: Vendor): Future[Vendor] = {
     val query = vendor.returning(vendor.map(_.userID)) into ((a, b) =>
       a.copy(userID = Some(b))) += inputVendor
     db.run(query)

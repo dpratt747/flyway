@@ -8,10 +8,12 @@ import io.finch.circe._
 
 trait RestInterface extends Resources {
 
-  lazy val vendorService = new VendorResources()
+  lazy val vendorResource = new VendorResources
+  lazy val brandTypeResource = new BrandTypeResources
 
   val endpoints: Service[Request, Response] = {
-    vendorService.vendorEndpoints.toServiceAs[Application.Json]
+    val joinEndpoints = vendorResource.vendorEndpoints :+: brandTypeResource.brandTypeEndpoint
+    joinEndpoints.toServiceAs[Application.Json]
   }
 
 }

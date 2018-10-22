@@ -1,10 +1,9 @@
-package router
+package router.twitter_custom
 
+import com.twitter.util.{Return, Throw, Future => TFuture, Promise => TPromise}
 
-import com.twitter.util.{Future => TFuture, Promise => TPromise, Return, Throw}
-import scala.concurrent.{Future => SFuture, Promise => SPromise, ExecutionContext}
-import scala.util.{Success, Failure}
-import io.finch.circe._, io.circe.generic.auto._
+import scala.concurrent.{ExecutionContext, Future => SFuture, Promise => SPromise}
+import scala.util.{Failure, Success}
 
 trait TwitterConversion {
 

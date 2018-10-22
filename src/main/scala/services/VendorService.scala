@@ -6,7 +6,7 @@ import slick.jdbc.MySQLProfile.api._
 import scala.concurrent.{ExecutionContext, Future}
 
 
-object VendorService {
+class VendorService {
 
   // TODO: add creation time and last login time field to db and vendor schema 
   def insertVendor(inputVendor: Vendor): Future[Vendor] = {

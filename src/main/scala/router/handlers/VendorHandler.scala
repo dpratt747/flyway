@@ -10,12 +10,12 @@ import services.VendorService
 
 object VendorHandler {
 
-  def addVendor(vendor: Vendor) = {
-    val currentDate = Calendar.getInstance().getTime
-    Timestamp.valueOf(currentDate)
-    if(vendor.insertionDate.isEmpty) vendor.copy(insertionDate = Some(Date)
+  private val vendorService = new VendorService
 
-    VendorService.insertVendor()
+  def addVendor(vendor: Vendor) = {
+    val currentDate = new Timestamp(Calendar.getInstance.getTime.getTime)
+    val vendorWithDates = vendor.copy(insertionDate = Some(currentDate), lastAccessedDate = Some(currentDate))
+    vendorService.insertVendor(vendorWithDates)
   }
 
   def encryptPassword(string: String): String = {

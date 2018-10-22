@@ -1,4 +1,4 @@
-package daoSpec
+package services
 
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.FunSpec
@@ -13,10 +13,10 @@ import org.scalatest.concurrent.ScalaFutures
 class VendorServiceSpec extends FunSpec with BeforeAndAfter with MockFactory with ScalaFutures {
 
   private val mockDB = stub[VendorService]
-  private val vendorForInsertion = Vendor(None,"dpratt747", "dpratt747@gmail.com", "password")
+  private val vendorForInsertion = Vendor(None,"dpratt747", "dpratt747@gmail.com", "password", None, None)
 
   describe("A VendorService"){
-    mockDB.insertVendor _ when vendorForInsertion returns Future(Vendor( Some(1), "dpratt747", "dpratt747@gmail.com", "password"))
+    mockDB.insertVendor _ when vendorForInsertion returns Future(Vendor( Some(1), "dpratt747", "dpratt747@gmail.com", "password", None, None))
 
     it("should persist a vendor and return the same vendor object with an uniqueID") {
       whenReady(mockDB.insertVendor(vendorForInsertion)) { result =>
@@ -24,6 +24,6 @@ class VendorServiceSpec extends FunSpec with BeforeAndAfter with MockFactory wit
         assert(result.userID.contains(1))
       }
     }
-
   }
+
 }

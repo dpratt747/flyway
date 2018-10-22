@@ -19,7 +19,7 @@ object ExecutionRunner extends RestInterface with TwitterServer with LogTrait {
     config.getString("env")
   } match {
     case Success(value) =>
-      log.info(s"Successfully retrieved environment variable from config $value")
+      log.info(s"Successfully retrieved environment variable from config: $value ")
       value
     case Failure(e) =>
       log.error(s"Failed to retrieve environment variable from config. Setting to variable to dev $e")

@@ -1,18 +1,23 @@
 package router
 
+import java.sql.Timestamp
+
+import io.circe.Decoder.Result
+import io.circe.{Decoder, Encoder, HCursor, Json}
 import io.finch._
 import io.finch.syntax._
 import schemas.Vendor
-import services.VendorService
 import shapeless.{:+:, CNil}
 import io.finch.circe._
-import router.DecodeEncode._
+import router.finch_custom.DecodeEncode._
+import router.finch_custom.DecodeEncodeCustomFormat
 import router.handlers.VendorHandler
+import router.twitter_custom.TwitterConversion
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import runner.LogTrait
 
-class VendorResources extends TwitterConversion with LogTrait {
+class VendorResources extends TwitterConversion with LogTrait with DecodeEncodeCustomFormat {
 
   private val ping: Endpoint[String] = get("ping") {
     log.info("Request made to /ping")
@@ -29,7 +34,6 @@ class VendorResources extends TwitterConversion with LogTrait {
     */
   private val addVendor: Endpoint[Vendor] = post("addvendor" :: jsonBody[Vendor]) { vendor: Vendor =>
     log.info(s"Request made to /addvendor with the following body: $vendor")
-//    VendorService.insertVendor(vendor).asTwitter.map(Ok)
     VendorHandler.addVendor(vendor).asTwitter.map(Ok)
   } handle {
     case e: Exception =>
@@ -37,8 +41,8 @@ class VendorResources extends TwitterConversion with LogTrait {
       InternalServerError(e)
   }
 
-  val vendorEndpoints: Endpoint[Vendor :+: String :+: CNil] = addVendor :+: ping
 
+  val vendorEndpoints: Endpoint[Vendor :+: String :+: CNil] = addVendor :+: ping
 }
 
 

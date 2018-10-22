@@ -1,10 +1,15 @@
 package schemas
 
+import java.sql.Timestamp
+import java.text.SimpleDateFormat
+import java.time.DateTimeException
 import java.util.Date
 
 import slick.jdbc.MySQLProfile.api._
 
-case class Vendor(userID: Option[Int], userName: String, email: String, password: String, insertionDate: Option[Date], lastAccessedDate: Option[Date])
+import scala.util.{Failure, Success, Try}
+
+case class Vendor(userID: Option[Int], userName: String, email: String, password: String, insertionDate: Option[Timestamp], lastAccessedDate: Option[Timestamp])
 
 class Vendors(tag: Tag) extends Table[Vendor](tag, "vendor") {
 
@@ -12,16 +17,8 @@ class Vendors(tag: Tag) extends Table[Vendor](tag, "vendor") {
   def userName = column[String]("UserName", O.SqlType("VARCHAR(100)"))
   def email = column[String]("Email", O.SqlType("VARCHAR(100)"))
   def password = column[String]("Password", O.SqlType("VARCHAR(100)"))
-  def insertionDate = column[Date]("InsertionDate", O.SqlType("TIMESTAMP"))(DateWrapper.utilDate2SqlTimestampMapper)
-  def lastAccessedDate = column[Date]("LastAccessedDate", O.SqlType("TIMESTAMP"))(DateWrapper.utilDate2SqlTimestampMapper)
+  def insertionDate = column[Timestamp]("InsertionDate", O.SqlType("timestamp not null default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP"))
+  def lastAccessedDate = column[Timestamp]("LastAccessedDate", O.SqlType("timestamp not null default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP"))
 
   def * = (userID.?, userName, email, password, insertionDate.?, lastAccessedDate.?) <> (Vendor.tupled, Vendor.unapply)
-}
-
-object DateWrapper {
-
-  val utilDate2SqlTimestampMapper = MappedColumnType.base[java.util.Date, java.sql.Timestamp](
-  { utilDate => new java.sql.Timestamp(utilDate.getTime) },
-  { sqlTimestamp => new java.util.Date(sqlTimestamp.getTime) })
-
 }

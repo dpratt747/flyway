@@ -9,4 +9,3 @@ object brandTypes extends TableQuery(new BrandTypes(_))
 object vendor extends TableQuery(new Vendors(_))
 
 
-

@@ -41,6 +41,14 @@ class VendorResources extends TwitterConversion with LogTrait with DecodeEncodeC
       InternalServerError(e)
   }
 
+  /**
+    * endpoint to return list of all vendor accounts
+    */
+  private val getVendors: Endpoint[Seq[Vendor]] = get("getvendors") {
+    log.info("Request maDe to /getvendors")
+    VendorHandler.getVendors.asTwitter.map(Ok)
+  }
+
 
   val vendorEndpoints: Endpoint[Vendor :+: String :+: CNil] = addVendor :+: ping
 }

@@ -8,11 +8,14 @@ import java.time._
 import schemas.Vendor
 import services.VendorService
 
+import scala.concurrent.Future
+
 object VendorHandler {
+
 
   private val vendorService = new VendorService
 
-  def addVendor(vendor: Vendor) = {
+  def addVendor(vendor: Vendor): Future[Vendor] = {
     val currentDate = new Timestamp(Calendar.getInstance.getTime.getTime)
     val vendorWithDates = vendor.copy(insertionDate = Some(currentDate), lastAccessedDate = Some(currentDate))
     vendorService.insertVendor(vendorWithDates)
@@ -26,5 +29,8 @@ object VendorHandler {
     }.toString
   }
 
+  def getVendors: Future[Seq[Vendor]] = {
+    vendorService.getVendors
+  }
 
 }

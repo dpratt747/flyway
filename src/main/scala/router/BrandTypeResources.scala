@@ -6,9 +6,9 @@ import io.finch.syntax._
 import schemas.{BrandType, Vendor}
 import shapeless.{:+:, CNil}
 import io.finch.circe._
-import router.finch_custom.DecodeEncode._
 import router.handlers.BrandTypesHandler
 import router.twitter_custom.TwitterConversion
+import finch_custom.DecodeEncode._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import runner.LogTrait

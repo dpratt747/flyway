@@ -9,7 +9,7 @@ import slick.jdbc.MySQLProfile.api._
 
 object BrandTypeService {
 
-  def addBrandType(b: BrandType): Future[Int] = {
+  def insertBrandType(b: BrandType): Future[Int] = {
     val query = brandTypes.insertOrUpdate(b)
     db.run(query)
   }

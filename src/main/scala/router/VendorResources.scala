@@ -9,10 +9,10 @@ import io.finch.syntax._
 import schemas.Vendor
 import shapeless.{:+:, CNil}
 import io.finch.circe._
-import router.finch_custom.DecodeEncode._
-import router.finch_custom.DecodeEncodeCustomFormat
 import router.handlers.VendorHandler
 import router.twitter_custom.TwitterConversion
+import finch_custom.DecodeEncode._
+import router.finch_custom.DecodeEncodeCustomFormat
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import runner.LogTrait
@@ -50,7 +50,7 @@ class VendorResources extends TwitterConversion with LogTrait with DecodeEncodeC
   }
 
 
-  val vendorEndpoints: Endpoint[Vendor :+: String :+: CNil] = addVendor :+: ping
+  val vendorEndpoints: Endpoint[Vendor :+: String :+: Seq[Vendor] :+: CNil] = addVendor :+: ping :+: getVendors
 }
 
 

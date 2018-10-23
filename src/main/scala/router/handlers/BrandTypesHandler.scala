@@ -12,7 +12,7 @@ object BrandTypesHandler {
   }
 
   def addBrandType(brandType: BrandType): Future[Int] = {
-    BrandTypeService.addBrandType(brandType)
+    BrandTypeService.insertBrandType(brandType)
   }
 
 }

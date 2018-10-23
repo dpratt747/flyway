@@ -9,3 +9,4 @@ object brandTypes extends TableQuery(new BrandTypes(_))
 object vendor extends TableQuery(new Vendors(_))
 
 
+final case class ItemFailedToDelete(private val message: String, private val cause: Throwable) extends Exception(message, cause)

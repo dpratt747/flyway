@@ -1,8 +1,9 @@
 CREATE TABLE IF NOT EXISTS brands (
     BrandID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    BrandName VARCHAR(100) NOT NULL,
+    BrandName VARCHAR(100) NOT NULL UNIQUE,
     TypeID INT NOT NULL,
-    ContactDetailsID INT
+    ContactDetailsID INT,
+    UserID INT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS vendor (
@@ -25,11 +26,9 @@ CREATE TABLE IF NOT EXISTS brand_contact_details (
     Address VARCHAR(100)
 );
 
-ALTER TABLE brands
-    ADD FOREIGN KEY (TypeID) REFERENCES brand_type(TypeID);
-
-ALTER TABLE brands
-    ADD FOREIGN KEY (ContactDetailsID) REFERENCES brand_contact_details(ContactID);
+ALTER TABLE brands ADD FOREIGN KEY (TypeID) REFERENCES brand_type(TypeID);
+ALTER TABLE brands ADD FOREIGN KEY (UserID) REFERENCES vendor(UserID);
+ALTER TABLE brands ADD FOREIGN KEY (ContactDetailsID) REFERENCES brand_contact_details(ContactID);
 
 -- adding default resturant types to table
 INSERT INTO brand_type (TypeName) VALUE ("Bistro");

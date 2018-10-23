@@ -7,7 +7,7 @@ import java.time._
 
 import schemas.Vendor
 import services.VendorService
-
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 object VendorHandler {
@@ -30,7 +30,10 @@ object VendorHandler {
   }
 
   def getVendors: Future[Seq[Vendor]] = {
-    vendorService.getVendors
+    vendorService.getVendors.map{x =>
+      println(x)
+      x
+    }
   }
 
 }

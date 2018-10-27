@@ -1,29 +1,37 @@
 package services
 
-import runner.vendor
+import runner.vendorTable
 import schemas.Vendor
 import slick.jdbc.MySQLProfile.api._
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.Future
 
 class VendorService {
 
   def getVendors: Future[Seq[Vendor]] = {
-    val query = vendor.result
+    val query = vendorTable.result
     db.run(query)
   }
 
-  // TODO: add creation time and last login time field to db and vendor schema
+  def getVendorByName(name: String): Future[Option[Vendor]] = {
+    val query = vendorTable.filter(_.userName === name).take(1).result.headOption
+    db.run(query)
+  }
+
   def insertVendor(inputVendor: Vendor): Future[Vendor] = {
-    val query = vendor.returning(vendor.map(_.userID)) into ((a, b) =>
+    val query = vendorTable.returning(vendorTable.map(_.userID)) into ((a, b) =>
       a.copy(userID = Some(b))) += inputVendor
     db.run(query)
   }
 
-//  override def getVendorByID(id: Int): Future[Vendor] = ???
-//
-//  override def getVendorByUsername(username: String): Future[Vendor] = ???
-//
-//  override def updateVendor(vendor: Vendor): Future[Vendor] = ???
+  def updateVendor(inputVendor: Vendor): Future[Int] = {
+    val query = vendorTable.insertOrUpdate(inputVendor)
+    db.run(query)
+  }
+
+  def removeVendorByName(name: String): Future[Int] = {
+    val query = vendorTable.filter(_.userName === name).delete
+    db.run(query)
+  }
 
   val db = Database.forConfig("mariadb")
 }

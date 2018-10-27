@@ -1,13 +1,8 @@
 package schemas
 
 import java.sql.Timestamp
-import java.text.SimpleDateFormat
-import java.time.DateTimeException
-import java.util.Date
-
 import slick.jdbc.MySQLProfile.api._
 
-import scala.util.{Failure, Success, Try}
 
 case class Vendor(userID: Option[Int], userName: String, email: String, password: String, insertionDate: Option[Timestamp], lastAccessedDate: Option[Timestamp])
 

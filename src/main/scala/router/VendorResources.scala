@@ -45,7 +45,7 @@ class VendorResources extends TwitterConversion with LogTrait with DecodeEncodeC
     * endpoint to return list of all vendor accounts
     */
   private val getVendors: Endpoint[Seq[Vendor]] = get("getvendors") {
-    log.info("Request maDe to /getvendors")
+    log.info("Request made to /getvendors")
     VendorHandler.getVendors.asTwitter.map(Ok)
   }
 

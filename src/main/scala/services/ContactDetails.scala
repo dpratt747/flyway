@@ -1,17 +1,17 @@
 package services
 
-import runner.brandContactDetails
+import runner.brandContactDetailsTable
 import schemas.BrandContactDetails
 import slick.jdbc.MySQLProfile.api._
 import scala.concurrent.Future
 
 
 
-object ContactDetails {
+class ContactDetails {
 
 
   def insertContactDetails(details: BrandContactDetails): Future[BrandContactDetails] = {
-    val query = brandContactDetails.returning(brandContactDetails.map(_.contactID)) into ((contactDetails, id) =>
+    val query = brandContactDetailsTable.returning(brandContactDetailsTable.map(_.contactID)) into ((contactDetails, id) =>
       contactDetails.copy(contactID = Some(id))) += details
     db.run(query)
   }

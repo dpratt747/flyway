@@ -1,21 +1,21 @@
 package services
 
 
-import runner.brandTypes
+import runner.brandTypesTable
 import schemas.BrandType
 
 import scala.concurrent.Future
 import slick.jdbc.MySQLProfile.api._
 
-object BrandTypeService {
+class BrandTypeService {
 
   def insertBrandType(b: BrandType): Future[Int] = {
-    val query = brandTypes.insertOrUpdate(b)
+    val query = brandTypesTable.insertOrUpdate(b)
     db.run(query)
   }
 
   def getBrandTypes: Future[Seq[String]] = {
-      val query = brandTypes.map(_.typeName).result
+      val query = brandTypesTable.map(_.typeName).result
       db.run(query)
   }
 

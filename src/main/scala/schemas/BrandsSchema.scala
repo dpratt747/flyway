@@ -3,7 +3,7 @@ package schemas
 import runner.{brandContactDetails, brandTypes, vendor}
 import slick.jdbc.MySQLProfile.api._
 
-case class Brand(brandID: Option[Int], brandName: String, typeID: Int, contactDetailsID: Int, userID: Int)
+case class Brand(brandID: Option[Int], brandName: String, typeID: Int, contactDetailsID: Int, userID: Int).
 
 class Brands(tag: Tag) extends Table[Brand](tag, "brands") {
 

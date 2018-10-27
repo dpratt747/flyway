@@ -1,7 +1,7 @@
 package router.handlers
 
 import akka.Done
-import runner.ItemFailedToDelete
+import runner.{ItemFailedToDelete, ItemFailedToUpdate}
 import schemas.Brand
 import services.BrandService
 
@@ -11,6 +11,9 @@ object BrandHandler {
 
 
   val brandService = new BrandService
+  private def areSizesEqual[A <: Seq[Any]](a: A, b:A): Boolean = {
+    a.size.equals(b.size)
+  }
 
   def addBrand(brand: Brand): Future[Brand] = {
     brandService.insertBrand(brand)
@@ -21,14 +24,21 @@ object BrandHandler {
       brandService.deleteBrandByUserIDAndName(userID, name).collect{case Some(e) => e}
     })
     names.map{ set =>
-      if (set.size != brandNames.size) {
-        val intersection = set.intersect(brandNames)
+      if (!areSizesEqual(set, brandNames)) {
+        val intersect = set.intersect(brandNames)
         val failed = brandNames.diff(set)
-        throw ItemFailedToDelete(s"")
+        throw ItemFailedToDelete(s"Failed to delete the following items: ${failed.mkString(", ")}. These items deleted " +
+          s"successfully: ${intersect.mkString(", ")}")
       }
-
+      Done
     }
-//    brandName.flatMap(brandService.deleteBrandByUserIDAndName(userID, _))
-
   }
+
+  def updateBrand(userID: Int, brand: Brand): Future[Done] = {
+    brandService.updateBrand(userID, brand).map{
+      case 0 => throw ItemFailedToUpdate(s"Failed to update item: $brand")
+      case _ => Done
+    }
+  }
+
 }

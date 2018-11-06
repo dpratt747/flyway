@@ -10,9 +10,10 @@ trait RestInterface extends Resources {
 
   lazy val vendorResource = new VendorResources
   lazy val brandTypeResource = new BrandTypeResources
+  lazy val userAccountResources = new UserAccountResources
 
   val endpoints: Service[Request, Response] = {
-    val joinEndpoints = vendorResource.vendorEndpoints :+: brandTypeResource.brandTypeEndpoint
+    val joinEndpoints = vendorResource.vendorEndpoints :+: brandTypeResource.brandTypeEndpoint :+: userAccountResources.userAccountEndpoints
     joinEndpoints.toServiceAs[Application.Json]
   }
 

@@ -35,18 +35,41 @@ class UserAccountResources extends TwitterConversion with LogTrait with DecodeEn
   /**
     * endpoint to return list of all vendor accounts
     */
-  private val getUserAccount: Endpoint[Seq[UserAccount]] = get("getusers") {
+  private val getAllUserAccounts: Endpoint[Seq[UserAccount]] = get("getusers") {
     log.info("Request made to /getusers")
-    UserAccountHandler.getUserAccount.asTwitter.map{ x =>
+    UserAccountHandler.getAllUserAccounts.asTwitter.map{ accounts =>
       log.info("Request to /getusers succeeded")
-      Ok(x)
+      Ok(accounts)
+    }
+  } handle {
+    case e: Exception =>
+      log.error(s"Error during request to /getusers: $e")
+      InternalServerError(e)
+  }
+
+  private val userLogin = put("login" :: jsonBody[UserAccount]) { user: UserAccount =>
+    log.info(s"Request made to /login")
+    UserAccountHandler.login(user).asTwitter.map{ userAccount =>
+      log.info(s"Request made to /login succeeded")
+      Ok(userAccount)
+    } handle {
+      case e: Exception =>
+        log.error(s"Error during request to /login: $e")
+        InternalServerError(e)
     }
   }
 
-  }
+//  private val getUser: Endpoint[Option[UserAccount]] = get("getuser" :: jsonBody[Either[UserAccount, String]]) { userOrUsername: Either[UserAccount, String] =>
+//    log.info(s"Request made to /getuser with the following body")
+//    UserAccountHandler.getUser(userOrUsername).asTwitter.map(Ok)
+//  } handle {
+//    case e:Exception =>
+//      log.error(s"Error during request to /getuser: $e")
+//  }
 
 
-  val vendorEndpoints: Endpoint[Vendor :+: String :+: Seq[Vendor] :+: CNil] = addUserAccount :+: getUser :+: getVendors
+  val userAccountEndpoints: Endpoint[UserAccount :+: Seq[UserAccount] :+: Option[UserAccount] :+: CNil] = addUserAccount :+:
+    getAllUserAccounts :+: userLogin
 }
 
 

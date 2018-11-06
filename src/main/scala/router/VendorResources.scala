@@ -49,7 +49,6 @@ class VendorResources extends TwitterConversion with LogTrait with DecodeEncodeC
     VendorHandler.getVendors.asTwitter.map(Ok)
   }
 
-
   val vendorEndpoints: Endpoint[Vendor :+: String :+: Seq[Vendor] :+: CNil] = addVendor :+: ping :+: getVendors
 }
 

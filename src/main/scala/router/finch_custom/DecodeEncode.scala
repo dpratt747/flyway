@@ -2,7 +2,7 @@ package router.finch_custom
 
 import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 import io.circe.{Decoder, Encoder}
-import schemas.{Brand, BrandType, Vendor}
+import schemas.{Brand, BrandType, UserAccount, Vendor}
 
 object DecodeEncode extends DecodeEncodeCustomFormat {
 
@@ -12,5 +12,8 @@ object DecodeEncode extends DecodeEncodeCustomFormat {
   implicit val encodeBrandType: Encoder[BrandType] = deriveEncoder[BrandType]
   implicit val decodeBrand: Decoder[Brand] = deriveDecoder[Brand]
   implicit val encodeBrand: Encoder[Brand] = deriveEncoder[Brand]
+  implicit val decodeUserAccount: Decoder[UserAccount] = deriveDecoder[UserAccount]
+  implicit val encodeUserAccount: Encoder[UserAccount] = deriveEncoder[UserAccount]
+
 
 }

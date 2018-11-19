@@ -14,12 +14,13 @@ import router.RestInterface
 object ExecutionRunner extends RestInterface with TwitterServer with LogTrait {
 
   private val config = ConfigFactory.load()
+  private val port = config.getInt("http.port")
 
   private val environment: String = Try {
     config.getString("env")
   } match {
     case Success(value) =>
-      log.info(s"Successfully retrieved environment variable from config: $value ")
+      log.info(s"Successfully retrieved environment variable from config: $value")
       value
     case Failure(e) =>
       log.error(s"Failed to retrieve environment variable from config. Setting to variable to dev $e")
@@ -30,13 +31,13 @@ object ExecutionRunner extends RestInterface with TwitterServer with LogTrait {
     if (environment.equals("dev")) {
       Cors.Policy(
         allowsOrigin = _ => Some("*"),
-        allowsMethods = _ => Some(Seq("GET", "POST", "DELETE")),
+        allowsMethods = _ => Some(Seq("GET", "POST", "DELETE", "PUT")),
         allowsHeaders = _ => Some(Seq("Accept", "Content-Type"))
       )
     } else {
       Cors.Policy(
         allowsOrigin = _ => Some("*"),
-        allowsMethods = _ => Some(Seq("GET", "POST", "DELETE")),
+        allowsMethods = _ => Some(Seq("GET", "POST", "DELETE", "PUT")),
         allowsHeaders = _ => Some(Seq("Accept", "Content-Type"))
       )
     }
@@ -50,7 +51,7 @@ object ExecutionRunner extends RestInterface with TwitterServer with LogTrait {
 
     val server = Http.server
       .configured(Stats(statsReceiver))
-      .serve(":9090", api)
+      .serve(s":$port", api)
 
     onExit {
       server.close()

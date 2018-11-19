@@ -17,10 +17,12 @@ libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-actor" % "2.5.17",
   "com.github.finagle" %% "finch-core" % "0.22.0",
   "com.github.finagle" %% "finch-circe" % "0.22.0",
+  "com.github.finagle" %% "finch-oauth2" % "0.22.0",
   "com.github.finagle" %% "finch-generic" % "0.22.0",
   "io.circe" %% "circe-generic" % "0.9.0",
   "io.circe" %% "circe-parser" % "0.9.1",
   "io.circe" %% "circe-optics" % "0.9.1",
   "com.twitter" %% "twitter-server" % "18.9.1",
+  "com.github.t3hnar" %% "scala-bcrypt" % "3.1"
 
 )

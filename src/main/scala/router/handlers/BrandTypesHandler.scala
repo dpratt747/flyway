@@ -7,12 +7,15 @@ import scala.concurrent.Future
 
 object BrandTypesHandler {
 
+  private val brandTypeService = new BrandTypeService
+
   def getBrandTypesList: Future[Seq[String]] = {
-    BrandTypeService.getBrandTypes
+    brandTypeService.getBrandTypes
   }
 
   def addBrandType(brandType: BrandType): Future[Int] = {
-    BrandTypeService.insertBrandType(brandType)
+    brandTypeService.insertBrandType(brandType)
   }
+
 
 }

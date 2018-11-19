@@ -1,32 +1,33 @@
 package services
 
 import akka.Done
-import runner.brands
+import runner.brandsTable
 import schemas.Brand
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import slick.jdbc.MySQLProfile.api._
 
 class BrandService {
 
-  def updateBrand(userId: Int, brand: Brand): Future[Int] = {
-    val query = brands.filter(_.userID === userId).insertOrUpdate(brand)
+  def updateBrand(brand: Brand): Future[Int] = {
+    val query = brandsTable.filter(_.userID === brand.userID).insertOrUpdate(brand)
     db.run(query)
   }
 
   def getBrand(brandId: Int): Future[Option[Brand]] = {
-    val query = brands.filter(_.brandID === brandId).take(1).result.headOption
+    val query = brandsTable.filter(_.brandID === brandId).take(1).result.headOption
     db.run(query)
   }
 
   def insertBrand(inputBrand: Brand): Future[Brand] = {
-    val query = brands.returning(brands.map(_.brandID)) into ((original, id) =>
+    val query = brandsTable.returning(brandsTable.map(_.brandID)) into ((original, id) =>
       original.copy(brandID = Some(id))) += inputBrand
     db.run(query)
   }
 
   def deleteBrandByUserIDAndName(userID: Int, brandName: String): Future[Option[String]] = {
-    val query = brands.filter { table =>
+    val query = brandsTable.filter { table =>
       table.userID === userID
       table.brandName === brandName
     }

@@ -7,4 +7,5 @@ trait LogTrait {
   private val handler = new ConsoleHandler()
   log.clearHandlers()
   log.addHandler(handler)
+  log.setLevel(java.util.logging.Level.FINE)
 }

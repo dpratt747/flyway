@@ -3,14 +3,30 @@ package services
 import runner.{userAccountTable, vendorTable}
 import schemas.UserAccount
 import slick.jdbc.MySQLProfile.api._
+import scala.concurrent.ExecutionContext.Implicits.global
+
 
 import scala.concurrent.Future
 
 class UserAccountService {
 
-//  def deleteUserAccount(id: Int) = {
-//    val query
-//  }
+  def deleteUserAccountByName(userName: String): Future[Option[String]] = {
+    val query = userAccountTable.filter(_.userName === userName)
+    val action = for {
+      results <- query.map(_.userName).take(1).result.headOption
+      _ <- query.delete
+    } yield results
+    db.run(action)
+  }
+
+  def deleteUserAccountById(id: Int): Future[Option[String]] = {
+    val query = userAccountTable.filter(_.userID === id)
+    val action = for {
+      results <- query.map(_.userName).take(1).result.headOption
+      _ <- query.delete
+    } yield results
+    db.run(action)
+  }
 
   def insertUserAccount(userAccount: UserAccount): Future[UserAccount] = {
     val query =  userAccountTable.returning(userAccountTable.map(_.userID)) into ((a, b) =>

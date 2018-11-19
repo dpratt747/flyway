@@ -4,6 +4,8 @@ import runner.vendorTable
 import schemas.Vendor
 import slick.jdbc.MySQLProfile.api._
 import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
+
 
 class VendorService {
 

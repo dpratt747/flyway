@@ -1,9 +1,5 @@
 package router
 
-import java.sql.Timestamp
-
-import io.circe.Decoder.Result
-import io.circe.{Decoder, Encoder, HCursor, Json}
 import io.finch._
 import io.finch.syntax._
 import schemas.Vendor
@@ -34,7 +30,10 @@ class VendorResources extends TwitterConversion with LogTrait with DecodeEncodeC
     */
   private val addVendor: Endpoint[Vendor] = post("addvendor" :: jsonBody[Vendor]) { vendor: Vendor =>
     log.info(s"Request made to /addvendor with the following body: $vendor")
-    VendorHandler.addVendor(vendor).asTwitter.map(Ok)
+    VendorHandler.addVendor(vendor).asTwitter.map{ res =>
+      log.info(s"Request to /addvendor successful: $res")
+      Ok(res)
+    }
   } handle {
     case e: Exception =>
       log.error(s"Error during request to /addvendor: $e")
@@ -46,7 +45,10 @@ class VendorResources extends TwitterConversion with LogTrait with DecodeEncodeC
     */
   private val getVendors: Endpoint[Seq[Vendor]] = get("getvendors") {
     log.info("Request made to /getvendors")
-    VendorHandler.getVendors.asTwitter.map(Ok)
+    VendorHandler.getVendors.asTwitter.map{ res =>
+      log.info(s"Request to /getvendors successful: $res")
+      Ok(res)
+    }
   }
 
   val vendorEndpoints: Endpoint[Vendor :+: String :+: Seq[Vendor] :+: CNil] = addVendor :+: ping :+: getVendors

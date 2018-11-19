@@ -1,9 +1,7 @@
 package router.handlers
 
-import java.security.MessageDigest
 import java.sql.Timestamp
-import java.util.{Calendar, Date}
-import java.time._
+import java.util.Calendar
 
 import schemas.Vendor
 import services.VendorService
@@ -21,19 +19,8 @@ object VendorHandler {
     vendorService.insertVendor(vendorWithDates)
   }
 
-  def encryptPassword(string: String): String = {
-    val digest = MessageDigest.getInstance("MD5")
-    digest.update(string.getBytes())
-    digest.digest().map { b =>
-      ((b & 0xff) + 0x100, 16).toString().substring(1)
-    }.toString
-  }
-
   def getVendors: Future[Seq[Vendor]] = {
-    vendorService.getVendors.map{x =>
-      println(x)
-      x
-    }
+    vendorService.getVendors
   }
 
 }

@@ -59,5 +59,5 @@ class UserAccountService {
     db.run(query)
   }
 
-  val db = Database.forConfig("mariadb")
+  private val db = ConnectionFactory("mariadb").loadMysql
 }

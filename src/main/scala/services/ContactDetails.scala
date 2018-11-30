@@ -7,7 +7,7 @@ import scala.concurrent.Future
 
 
 
-class ContactDetails {
+class ContactDetailsService {
 
 
   def insertContactDetails(details: BrandContactDetails): Future[BrandContactDetails] = {
@@ -19,5 +19,5 @@ class ContactDetails {
 //  def updateContactDetails(): Future[BrandContactDetails] = {}
 
 
-  val db = Database.forConfig("mariadb")
+  private val db = ConnectionFactory("mariadb").loadMysql
 }

@@ -1,6 +1,7 @@
 package router
 
 
+import akka.Done
 import io.finch._
 import io.finch.syntax._
 import schemas.Brand
@@ -53,5 +54,5 @@ class BrandsResources extends TwitterConversion with LogTrait with DecodeEncodeC
       InternalServerError(e)
   }
 
-  val brandTypeEndpoint: Endpoint[Brand :+: Int :+: CNil] = addBrand :+: removeBrand
+  val brandTypeEndpoint: Endpoint[Brand :+: Done :+: Done :+: CNil] = addBrand :+: removeBrand :+: updateBrand
 }

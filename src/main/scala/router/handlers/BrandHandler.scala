@@ -19,7 +19,7 @@ object BrandHandler {
     brandService.insertBrand(brand)
   }
 
-  def deleteBrand(userId: Int, brand: Brand): Future[Done.type] = {
+  def deleteBrand(userId: Int, brand: Brand): Future[Done] = {
     brandService.deleteBrandByUserIDAndName(userId, brand.brandName).map(_ => Done)
   }
 

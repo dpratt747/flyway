@@ -12,5 +12,7 @@ object userAccountTable extends TableQuery(new UserAccounts(_))
 final case class ItemFailedToDelete(private val message: String, private val cause: Throwable = None.orNull) extends Exception(message, cause)
 final case class ItemFailedToUpdate(private val message: String, private val cause: Throwable = None.orNull) extends Exception(message, cause)
 final case class FailedToFindUser(private val message: String, private val cause: Throwable = None.orNull) extends Exception(message, cause)
+final case class InvalidDbCall(private val message: String, private val cause: Throwable = None.orNull) extends Exception(message, cause)
+
 
 

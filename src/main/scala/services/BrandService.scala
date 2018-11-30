@@ -3,6 +3,7 @@ package services
 import akka.Done
 import runner.brandsTable
 import schemas.Brand
+import slick.jdbc.MySQLProfile
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -39,5 +40,5 @@ class BrandService {
     db.run(action)
   }
 
-  val db = Database.forConfig("mariadb")
+  private val db = ConnectionFactory("mariadb").loadMysql
 }

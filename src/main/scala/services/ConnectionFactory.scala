@@ -1,6 +1,6 @@
 package services
 
-import runner.InvalidDbCall
+import runner.{InvalidDbCall, LogTrait}
 import slick.jdbc.MySQLProfile
 import slick.jdbc.MySQLProfile.api._
 
@@ -9,10 +9,12 @@ trait ConnectionFactory {
   def loadMysql: MySQLProfile.backend.Database
 }
 
-object ConnectionFactory {
+object ConnectionFactory extends LogTrait{
   private class MariaDB extends ConnectionFactory {
     override def loadMysql: MySQLProfile.backend.DatabaseDef = {
-     Database.forConfig("mariadb")
+      val title = "mariadb"
+      log.info(s"loading config settings for $title from application.conf")
+      Database.forConfig(title)
     }
   }
 

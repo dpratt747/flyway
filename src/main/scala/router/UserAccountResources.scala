@@ -1,6 +1,6 @@
 package router
 
-
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException
 import io.finch._
 import io.finch.syntax._
 import schemas.UserAccount
@@ -12,7 +12,7 @@ import finch_custom.DecodeEncode._
 import router.finch_custom.DecodeEncodeCustomFormat
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import runner.LogTrait
+import runner.{LogTrait, UserAlreadyExists}
 
 class UserAccountResources extends TwitterConversion with LogTrait with DecodeEncodeCustomFormat {
 
@@ -25,6 +25,9 @@ class UserAccountResources extends TwitterConversion with LogTrait with DecodeEn
       Ok(res)
     }
   } handle {
+    case e: MySQLIntegrityConstraintViolationException =>
+      log.error(s"Error during request to /signup: $e")
+      throw UserAlreadyExists(e.getMessage)
     case e: Exception =>
       log.error(s"Error during request to /signup: $e")
       InternalServerError(e)
@@ -67,9 +70,9 @@ class UserAccountResources extends TwitterConversion with LogTrait with DecodeEn
   }
 
   private val loginUserAccount = put("login" :: jsonBody[UserAccount]) { user: UserAccount =>
-    log.info(s"Request made to /login")
+    log.info(s"Request made to /login with $user")
     UserAccountHandler.login(user).asTwitter.map { res =>
-      log.info(s"Request made to /login succeeded")
+      log.info(s"Request made to /login succeeded: returning: $res")
       Ok(res)
     } handle {
       case e: Exception =>

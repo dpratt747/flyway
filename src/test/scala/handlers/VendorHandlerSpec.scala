@@ -25,5 +25,9 @@ class VendorHandlerSpec extends FunSpec with BeforeAndAfter with MockFactory wit
         assert(res == vendorReturned)
       }
     }
+
+    it("test4") {
+     assert(1 === 1)
+    }
   }
 }

@@ -18,6 +18,13 @@ object VendorHandler {
     val vendorWithDates = vendor.copy(insertionDate = Some(currentDate), lastAccessedDate = Some(currentDate))
     vendorService.insertVendor(vendorWithDates)
   }
+  def deleteVendorByName(username: String): Future[Int] = {
+    vendorService.removeVendorByName(username)
+  }
+
+  def deleteVendorByID(id: Int): Future[Int] = {
+    vendorService.removeVendorByID(id)
+  }
 
   def getVendors: Future[Seq[Vendor]] = {
     vendorService.getVendors

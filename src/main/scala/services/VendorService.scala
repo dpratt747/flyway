@@ -30,10 +30,17 @@ class VendorService {
 		db.run(query)
 	}
 
+	def removeVendorByID(id: Int): Future[Int] = {
+		val query = vendorTable.filter(_.userID === id).delete
+		db.run(query)
+	}
+
 	def removeVendorByName(name: String): Future[Int] = {
 		val query = vendorTable.filter(_.userName === name).delete
 		db.run(query)
 	}
 
 	private val db = ConnectionFactory("mariadb").loadMysql
+	private val session = db.createSession()
+	session.conn.setAutoCommit(false)
 }
